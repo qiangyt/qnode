@@ -1,0 +1,75 @@
+{
+  "name": "qnode",
+  "version": "2.0.0",
+  "description": "node.js framework by Qiang Yiting",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "node_modules/.bin/gulp clean",
+    "dist": "npm run clean && node_modules/.bin/gulp default",
+    "cover": "npm run dist && NODE_ENV=test QNODE_PRODUCT=qnode QNODE_MODULE=qnode QNODE_LOG_LEVEL=error node ./node_modules/istanbul/lib/cli.js cover -color ./node_modules/jasmine/bin/jasmine.js",
+    "test": "npm run dist && NODE_ENV=test QNODE_PRODUCT=qnode QNODE_MODULE=qnode QNODE_LOG_LEVEL=error node ./node_modules/jasmine/bin/jasmine.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qiangyt/qnode.git"
+  },
+  "author": "Qiang Yiting <qiangyt@wxcount.com> (https://github.com/qiangyt)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qiangyt/qnode/issues"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "private": false,
+  "homepage": "https://github.com/qiangyt/qnode#readme",
+  "dependencies": {
+    "@types/assert-plus": "1.0.4",
+    "@types/jsonwebtoken": "7.2.8",
+    "@types/kue": "0.11.9",
+    "@types/marked": "0.4.0",
+    "@types/mime": "2.0.0",
+    "@types/mongoose": "5.2.5",
+    "@types/mysql": "2.15.5",
+    "@types/redis": "2.8.6",
+    "@types/restify": "5.0.1",
+    "@types/sequelize": "3.30.4",
+    "ajv": "4.11.5",
+    "ali-oss": "6.0.1",
+    "aliyun-oss-upload-stream": "1.3.0",
+    "assert-plus": "1.0.0",
+    "basic-auth-connect": "1.0.0",
+    "dataloader": "1.4.0",
+    "escape-regexp-component": "1.0.2",
+    "express": "4.16.3",
+    "formidable": "1.2.1",
+    "fury": "3.0.0-beta.7",
+    "fury-adapter-apib-serializer": "0.7.0",
+    "fury-adapter-swagger": "0.19.1",
+    "gm": "1.23.1",
+    "graphql": "0.13.2",
+    "jsonwebtoken": "7.3.0",
+    "kue": "0.11.6",
+    "marked": "0.4.0",
+    "md5": "2.2.1",
+    "mime": "2.3.1",
+    "mongoose": "5.2.7",
+    "mysql": "2.16.0",
+    "ncp": "2.0.0",
+    "node-celery": "0.2.8",
+    "node_memcached": "1.1.3",
+    "qnode-beans": "2.0.3",
+    "redis": "2.8.0",
+    "restify": "5.2.1",
+    "restify-clients": "1.6.0",
+    "restify-cookies": "0.2.5",
+    "sequelize": "3.33.0",
+    "swagger2blueprint": "1.1.0",
+    "waliyun-sdk": "^1.10.5"
+  },
+  "devDependencies": {},
+  "browser": {
+    "os": false
+  }
+}

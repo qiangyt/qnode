@@ -1,0 +1,94 @@
+const Errors = require('../Errors');
+import Exception from 'qnode-beans/dist/Exception';
+import Bean from 'qnode-beans/dist/Bean';
+import * as ApiRole from '../ApiRole';
+import AuthToken from './AuthToken';
+import AuthTokenCodec from './AuthTokenCodec';
+import Context from '../ctx/Context';
+import ApiDefinition from '../ApiDefinition';
+import * as Restify from 'restify';
+
+
+export default class SimpleAuth extends Bean {
+
+    public tokenCodec:AuthTokenCodec = null;
+
+
+    init() {
+        this.tokenCodec = new AuthTokenCodec();
+    }
+
+
+    codec() {
+        return this.tokenCodec;
+    }
+
+    /**
+     * @param req the context object
+     * @param def the ApiDefinition object
+     * @param req the request object
+     */
+    auth( ctx:Context, def:ApiDefinition, req:Restify.Request ) {
+        if( def.roles.indexOf(ApiRole.any) >= 0 ) return Promise.resolve();
+
+        const me = this;
+        const token = this.resolveToken( ctx, req );
+        this._logger.debug( {token, ctx}, 'decoding token' );
+        
+        return this.decode( ctx, token ).then( function(auth:AuthToken) {
+            ctx.$auth = auth;
+            ctx.$authToken = token;
+            
+            const authResult = auth.hasRoles(def.roles);
+            if( authResult.ok ) return;
+
+            const absentRoleNames = ApiRole.byValueArray(authResult.absentRoles)
+            throw new Exception( Errors.NO_PERMISSION, absentRoleNames );
+        } ).catch( function(err:Error) {
+            if( err instanceof Exception ) throw err;
+
+            if( 'TokenExpiredError' === err.name ) throw new Exception( Errors.EXPIRED_AUTH_TOKEN );
+            
+            me._logger.error( {err, ctx, token}, 'failed to decode auth token' );
+            throw new Exception( Errors.INVALID_AUTH_TOKEN );
+        } );
+    }
+
+    resolveToken( ctx:Context, req:Restify.Request ) {
+        const params = req.params;
+
+        let token;
+
+        /* eslint max-depth: ["error", 5] */
+        if( params ) {
+            token = params.aauth;
+            if( !token ) {
+                const headers = req.headers;
+                if( headers ) {
+                    token = headers.aauth;
+                    if( !token ) {
+                        const authorizationHeader = headers.authorization;
+                        if( authorizationHeader && authorizationHeader.indexOf('aauth ', 0) === 0 ) {
+                            token = (<string>authorizationHeader).substring('aauth '.length);
+                        }
+                    }
+                }
+            }
+        }
+
+        return token;
+    }
+
+    /**
+     * @param req the request object
+     */
+    decode( ctx:Context, token:string ) {
+        if( !token ) return Promise.resolve(this.createEmptyToken());
+        return this.codec().decode(ctx, token);
+    }
+
+    createEmptyToken() {
+        return new AuthToken( null, null, null, [ApiRole.any], null, false );
+    }
+
+}
