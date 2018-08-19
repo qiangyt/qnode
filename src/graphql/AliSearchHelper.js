@@ -2,10 +2,10 @@
 
 
 const Util = require('util');
-const Logger = require('../Logger');
+import * as Logger from 'qnode-beans/dist/Logger';
 
 
-class AliSearchHelper {
+export default class AliSearchHelper {
 
 
     init() {
@@ -293,6 +293,3 @@ class AliSearchHelper {
     }
 
 }
-
-
-module.exports = AliSearchHelper;

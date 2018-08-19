@@ -4,7 +4,7 @@
 /* eslint no-unused-vars:"off" */
 
 
-class Provider {
+export default class Provider {
 
     constructor() {
         this.$init = 'init';
@@ -34,6 +34,3 @@ class Provider {
     }
 
 }
-
-
-module.exports = Provider;

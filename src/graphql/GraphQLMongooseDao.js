@@ -4,7 +4,7 @@
 const MongooseDao = require('../odm/MongooseDao');
 
 
-class GraphQLMongooseDao extends MongooseDao {
+export default class GraphQLMongooseDao extends MongooseDao {
 
 
     /*_selectSearchableFields( document ) {
@@ -129,5 +129,3 @@ class GraphQLMongooseDao extends MongooseDao {
 
 }
 
-
-module.exports = GraphQLMongooseDao;

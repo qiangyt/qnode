@@ -1,32 +1,23 @@
 'use strict';
 
-const Logger = require('../Logger');
-const Exception = require('../Exception');
-const CodePath = require('../util/CodePath').default;
-const Errors = require('../Errors');
-const ErrorType = require('../ErrorType');
+import * as Logger from 'qnode-beans/dist/Logger';
+import * as Exception from 'qnode-beans/dist/Exception';
+import CodePath from 'qnode-beans/dist/util/CodePath';
+const Errors = require('qnode-beans').Errors;
+import Bean from 'qnode-beans/dist/Bean';
 const FileHelper = require('../file/FileHelper');
-const InternalContext = require('../ctx/InternalContext');
 const formidable = require('formidable');
 const http = require('http');
 const util = require('util');
-const Misc = require('../util/Misc');
+import * as Misc from('qnode-bean/dist/util/Misc';
 
 
 //https://github.com/felixge/node-formidable.git
 //TODO: how to support transaction when internaly invoking API
+export default class FileUploader extends Bean {
 
-class FileUploader {
-
-    constructor() {
-        this.$id = 'FileUploader';
-        this.$init = '_init';
-        this.$MsClient = null;
-        this.logger = Logger.create(this);
-
+    constructor() {        
         this.Package = require(CodePath.resolve('../package.json'));
-
-        this.$lazy = true;
     }
 
 
@@ -209,6 +200,3 @@ class FileUploader {
     }
 
 }
-
-
-module.exports = FileUploader;

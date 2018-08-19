@@ -4,7 +4,7 @@ const MongooseTypeFactory = require('./MongooseTypeFactory');
 const Provider = require('./Provider');
 
 
-class MongooseProvider extends Provider {
+export default class MongooseProvider extends Provider {
 
 
     /** @override */
@@ -91,5 +91,3 @@ class MongooseProvider extends Provider {
 
 }
 
-
-module.exports = MongooseProvider;

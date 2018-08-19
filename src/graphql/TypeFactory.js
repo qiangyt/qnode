@@ -12,7 +12,7 @@ const GraphQLInt = g.GraphQLInt;
 /* eslint no-unused-vars:'off' */
 
 
-class TypeFactory {
+export default class TypeFactory {
 
     constructor( provider ) {
         this.provider = provider;
@@ -88,6 +88,3 @@ class TypeFactory {
 
 
 TypeFactory.DATETIME = 'DateTime';
-
-
-module.exports = TypeFactory;

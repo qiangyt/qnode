@@ -1,10 +1,6 @@
 
 
-export default class SqlBuilder {
-
-    public $id = 'SqlBuilder';
-    public $lazy = true;
-    
+export default class SqlBuilder {    
 
     /**
      * 生成insert SQL语句：insert into <表名> (列1,列2,列3,...) values (?,?,?...)

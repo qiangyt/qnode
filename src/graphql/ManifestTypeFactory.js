@@ -23,7 +23,7 @@ const _TYPE_NAME__GROUP = 'ManifestGroup';
 
 
 //TODO: convert the error to GraphQL error
-class ManifestTypeFactory extends TypeFactory {
+export default class ManifestTypeFactory extends TypeFactory {
 
 
     _defineObjectType_Field( engine ) {
@@ -283,5 +283,3 @@ class ManifestTypeFactory extends TypeFactory {
 
 }
 
-
-module.exports = ManifestTypeFactory;

@@ -1,31 +1,29 @@
 'use strict';
 
-const requireAsBean = require('../Internal').requireAsBean;
-
 
 module.exports = {
 
-    AliSearchHelper:            require('./AliSearchHelper'),
+    AliSearchHelper:            require('./AliSearchHelper').default,
 
-    GraphQLAliSearchJobQueue:   requireAsBean( module, './GraphQLAliSearchJobQueue' ),
+    GraphQLAliSearchJobQueue:   require('./GraphQLAliSearchJobQueue' ).default,
 
-    BaseAPI:                    require('./BaseAPI'),
+    BaseAPI:                    require('./BaseAPI').default,
 
-    ComponentBuilder:           require('./ComponentBuilder'),
+    ComponentBuilder:           require('./ComponentBuilder').default,
 
-    GraphQLMongooseDao:         require('./GraphQLMongooseDao'),
+    GraphQLMongooseDao:         require('./GraphQLMongooseDao').default,
     
     InputCategory:              require('./InputCategory'),
 
-    ManifestProvider:           require('./ManifestProvider'),
-    ManifestTypeFactory:        require('./ManifestTypeFactory'),
+    ManifestProvider:           require('./ManifestProvider').default,
+    ManifestTypeFactory:        require('./ManifestTypeFactory').default,
 
-    MongooseProvider:           require('./MongooseProvider'),
-    MongooseTypeFactory:        require('./MongooseTypeFactory'),
+    MongooseProvider:           require('./MongooseProvider').default,
+    MongooseTypeFactory:        require('./MongooseTypeFactory').default,
 
-    Provider:                   require('./Provider'),
+    Provider:                   require('./Provider').default,
 
-    TypeFactory:                require('./TypeFactory'),
+    TypeFactory:                require('./TypeFactory').default,
 
     module: module
 

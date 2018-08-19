@@ -4,7 +4,7 @@
 const AliSearchJobQueue = require('../job').AliSearchJobQueue;
 
 
-class GraphQLAliSearchJobQueue extends AliSearchJobQueue {
+export default class GraphQLAliSearchJobQueue extends AliSearchJobQueue {
     
 
     constructor() {
@@ -22,4 +22,3 @@ class GraphQLAliSearchJobQueue extends AliSearchJobQueue {
 }
 
 
-module.exports = GraphQLAliSearchJobQueue;

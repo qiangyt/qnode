@@ -3,6 +3,6 @@
 
 module.exports = {
 
-    MsClient: require('./MsClient')
+    MsClient: require('./MsClient').default
 
 };

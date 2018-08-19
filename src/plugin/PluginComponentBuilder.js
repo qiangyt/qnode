@@ -5,7 +5,7 @@ const PluginManifestProvider = require('./PluginManifestProvider');
 const PluginSearchHelper = require('./PluginSearchHelper');
 
 
-class PluginComponentBuilder extends ComponentBuilder {
+module.export = class PluginComponentBuilder extends ComponentBuilder {
 
 
     constructor( engine ) {
@@ -34,6 +34,3 @@ class PluginComponentBuilder extends ComponentBuilder {
     }
 
 }
-
-
-module.exports = PluginComponentBuilder;

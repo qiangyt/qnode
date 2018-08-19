@@ -1,5 +1,5 @@
 import DaoTestSuite from './DaoTestSuite';
-//const Errors = require('../Errors');
+//const Errors = require('qnode-beans').Errors;
 //import Exception from '../Exception';
 //import * as _ from 'lodash';
 

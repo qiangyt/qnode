@@ -1,13 +1,10 @@
 
-import * as Internal from './Internal';
-
 const Path = require('path');
-const Log = require('./Logger');
+import * as Logger from 'qnode-beans/dist/Logger';
 
-const logger = Log.create('wnode');
+const logger = Logger.create('wnode');
 
 declare module global {
-    let bearcat:any;
     let config:any;
     let pkg:any;
 }
@@ -19,11 +16,9 @@ Path.parse = function(full:string) {
     return r;
 }
 
-import Config from './Config';
-import CodePath from './util/CodePath';
+import Config from 'qnode-beans/dist/Config';
+import CodePath from 'qnode-beans/dist/util/CodePath';
 const Bearcat = require('bearcat');
-const requireAsBean = Internal.requireAsBean;
-//import registerAsBean = Internal.registerAsBean;
 import SwaggerHelper from './swagger/SwaggerHelper';
 import Schemas from './swagger/Schemas';
 

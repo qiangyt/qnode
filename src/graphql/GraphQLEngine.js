@@ -1,13 +1,13 @@
 'use strict';
 
-const Logger = require('../Logger');
+import * as Logger from 'qnode-beans/dist/Logger';
 const g = require('graphql');
 const _ = require('lodash');
-const CodePath = require('../util/CodePath');
+import CodePath from 'qnode-beans/dist/util/CodePath';
 const ComponentBuilder = require('./ComponentBuilder');
 
 
-class GraphQLEngine {
+export default class GraphQLEngine {
 
 
     constructor( id, manifestDir ) {
@@ -298,5 +298,3 @@ class GraphQLEngine {
 
 }
 
-
-module.exports = GraphQLEngine;

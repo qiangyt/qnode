@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import SupportedMIME from '../SupportedMIME';
-import CodePath from '../util/CodePath';
+import CodePath from 'qnode-beans/dist/util/CodePath';
 import * as ApiRole from '../ApiRole';
 import * as Ajv from 'ajv';
 import Schemas from './Schemas';
@@ -9,16 +9,16 @@ import ApiDefinition from '../ApiDefinition';
 import ApiParameter from '../ApiParameter';
 
 
-declare module global {
-    const config:any;
-}
-
-
 export default class SwaggerHelper {
 
-    public $id = 'SwaggerHelper';
-    public $Schemas:Schemas = null;
+    public schemas:Schemas;
+    public apiServer:ApiServer;
     public ajv:Ajv.Ajv;
+
+
+    init() {
+        this.schemas = new Schemas();
+    }
 
 
     buildOptions( ignoreInternalApi = true, ignoreGetSwaggerApi = true, ignoreGetBlueprintApi = true, ignoreNames:string[] = [] ) {
@@ -51,7 +51,7 @@ export default class SwaggerHelper {
             for( let n in defs ) targetDefs.push(defs[n]);
         }
 
-        const cfg = global.config.server;
+        const cfg = this.apiServer._config;
 
         return {
             swagger: '2.0',
@@ -70,7 +70,7 @@ export default class SwaggerHelper {
     definitions( defs:ApiDefinition[], options:any ) {
         const r:any = {};
 
-        const schemaMapByName = this.$Schemas.all();
+        const schemaMapByName = this.schemas.all();
         Object.assign( r, schemaMapByName );
 
         const ajv:Ajv.Ajv = this.ajv = new (<any>Ajv)({
@@ -155,7 +155,7 @@ export default class SwaggerHelper {
         const pkg = require(CodePath.resolve('../package.json'));
 
         const r = {
-            title: global.config.server.name,
+            title: this.apiServer._config.name,
             description: pkg.description,
             version: pkg.version,
             contact: {
@@ -163,7 +163,7 @@ export default class SwaggerHelper {
             }
         };
 
-        const swaggerCfg = global.config.swagger;
+        const swaggerCfg = this.apiServer._config.swagger;
         if( swaggerCfg && swaggerCfg.info ) _.merge( r, swaggerCfg.info );
 
         return r;
@@ -232,7 +232,7 @@ export default class SwaggerHelper {
         }
 
         r[d.method] = {
-            tags: [global.config.server.name],
+            tags: [this.apiServer._config.name],
             "x-openApi": d.openApi || false,
             "x-timeout": d.timeout,
             summary: d.summary,

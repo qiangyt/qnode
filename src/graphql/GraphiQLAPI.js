@@ -6,7 +6,7 @@ const BaseAPI = require('./BaseAPI');
 /**
  *
  */
-class GraphiQLAPI extends BaseAPI {
+export default class GraphiQLAPI extends BaseAPI {
 
     constructor() {
         super('GraphiQLAPI');
@@ -28,5 +28,3 @@ Object.assign( GraphiQLAPI, {
     summary: 'graphiql',
     customizeJsonResponse: true
 } );
-
-module.exports = GraphiQLAPI;

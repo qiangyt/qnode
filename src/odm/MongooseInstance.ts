@@ -1,8 +1,8 @@
 import * as Fs from 'fs';
 import * as Path from 'path';
-import CodePath from '../util/CodePath';
+import CodePath from 'qnode-beans/dist/util/CodePath';
 import * as Mongoose from 'mongoose';
-import * as Log from '../Logger';
+import * as Log from 'qnode-beans/dist/Logger';
 import * as _ from 'lodash';
 
 declare module global {

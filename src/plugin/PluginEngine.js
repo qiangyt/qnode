@@ -5,7 +5,7 @@ const PluginComponentBuilder = require('./PluginComponentBuilder');
 const Path = require('path');
 
 
-class PluginEngine extends GraphQLEngine {
+module.exports = class PluginEngine extends GraphQLEngine {
 
 
     constructor() {
@@ -36,5 +36,3 @@ class PluginEngine extends GraphQLEngine {
 
 }
 
-
-module.exports = PluginEngine;

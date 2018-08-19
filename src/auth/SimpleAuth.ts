@@ -1,4 +1,4 @@
-const Errors = require('../Errors');
+const Errors = require('qnode-beans').Errors;
 import Exception from 'qnode-beans/dist/Exception';
 import Bean from 'qnode-beans/dist/Bean';
 import * as ApiRole from '../ApiRole';

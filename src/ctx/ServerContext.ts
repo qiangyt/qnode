@@ -1,20 +1,16 @@
-const Errors = require('../Errors.js');
+const Errors = require('qnode-beans').Errors;
 import Context from  './Context';
 import LocalClientContext from  './LocalClientContext';
 import * as Util from 'util';
-import CodePath from '../util/CodePath';
-import * as Misc from '../util/Misc';
-import * as Log from '../Logger';
+import CodePath from 'qnode-beans/dist/util/CodePath';
+import Config from 'qnode-beans/dist/Config';
+import * as Misc from 'qnode-beans/dist/util/Misc';
+import * as Log from 'qnode-beans/dist/Logger';
 import ApiServer from '../ApiServer';
 import ApiDefinition from '../ApiDefinition';
 import * as Restify from 'restify';
 
 let _Package:any;
-
-declare module global {
-    const config:any;
-    const bearcat:any;
-}
 
 
 export default class ServerContext extends Context {
@@ -40,7 +36,7 @@ export default class ServerContext extends Context {
 
         this.next = null;
 
-        if( global.config.server.logContext ) {
+        if( server._config.logContext ) {
             this.logger.info( {
                 ctx: this,
                 req: Log.config.req ? req : undefined,
@@ -118,7 +114,7 @@ export default class ServerContext extends Context {
 
         res.setHeader( '$version', this.Package().version );
 
-        if( global.config.server.cors ) {
+        if( this.server._config.cors ) {
             this.setCORSHeaders();
         }
 
@@ -154,7 +150,7 @@ export default class ServerContext extends Context {
             logObj.res = res;
         }
 
-        if( global.config.server.logContext ) {
+        if( this.server._config.logContext ) {
             this.logger.info( logObj, 'end Context' );
         }
     }
@@ -194,7 +190,7 @@ export default class ServerContext extends Context {
     isJsonResponseValid( response:any ):boolean {
 
         // 如果全局关闭，则不进行 JSON 验证
-        const cfg = global.config.server;
+        const cfg = this.server._config;
         if (false === cfg.validateResponse) return true;
 
         // 如果 API 定义了关闭 JSON 验证，则跳过

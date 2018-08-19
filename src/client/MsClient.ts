@@ -1,4 +1,4 @@
-const Errors = require('../Errors');
+const Errors = require('qnode-beans').Errors;
 const RestifyClients = require('restify-clients');
 import LocalClientContext from '../ctx/LocalClientContext';
 import AuthToken from '../auth/AuthToken';
@@ -36,7 +36,7 @@ export default class MsClient extends Bean {
             if( !sbase ) throw new Error( "bad service config: " + sname );
 
             const s:any = this.services[sname] = {
-                isLocal: (sbase === 'http://localhost:' + global.config.server.httpPort)
+                isLocal: (sbase === 'http://localhost:' + serverCfg.httpPort)
             };
 
             if( !s.isLocal ) {

@@ -1,4 +1,4 @@
-const Errors = require('./Errors');
+const Errors = require('qnode-beans').Errors;
 import Context from './ctx/Context';
 
 /*

@@ -6,7 +6,7 @@ const GraphQLMongooseDao = require('../graphql/GraphQLMongooseDao');
 /* eslint global-require:'off' */
 
 
-class PluginInstanceDao extends GraphQLMongooseDao {
+module.exports = class PluginInstanceDao extends GraphQLMongooseDao {
 
     
     constructor() {
@@ -27,5 +27,3 @@ class PluginInstanceDao extends GraphQLMongooseDao {
 
 }
 
-
-module.exports = PluginInstanceDao;

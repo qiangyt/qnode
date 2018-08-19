@@ -3,9 +3,6 @@ import * as Util from 'util';
 import * as Sinon from 'sinon';
 import Context from '../ctx/Context';
 
-declare module global {
-    const bearcat:any;
-}
 
 
 export default class TestSuite {

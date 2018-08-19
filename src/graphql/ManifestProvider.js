@@ -10,7 +10,7 @@ const Provider = require('./Provider');
 /* eslint no-unused-vars: 'off' */
 
 
-class ManifestProvider extends Provider {
+export default class ManifestProvider extends Provider {
 
 
     /** @override */
@@ -189,6 +189,3 @@ class ManifestProvider extends Provider {
     }
 
 }
-
-
-module.exports = ManifestProvider;

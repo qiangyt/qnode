@@ -4,12 +4,7 @@ import * as Util from 'util';
 import * as Path from 'path';
 import SupportedMIME from './SupportedMIME';
 import Context from './ctx/Context';
-
-
-declare module global {
-    const config:any;
-    const bearcat:any;
-}
+import Beans from 'qnode-beans/dist/Beans';
 
 
 
@@ -111,7 +106,7 @@ export default class ApiDefinition {
     /**
      *
      */
-    static build( path:any ) {
+    static build( beans:Beans, path:any ) {
         if( !path.relative ) path.relative = '';
 
         let apiName = Path.join(path.relative, path.name);
@@ -147,8 +142,7 @@ export default class ApiDefinition {
         /*eslint no-unneeded-ternary: "off"*/
         def.validateResponse = (mod.validateResponse === false ) ? false : true;
 
-        global.bearcat.module(mod);
-        def.bean = global.bearcat.getBean(path.name);
+        def.bean = beans.load(path.name);
 
         return def;
     }

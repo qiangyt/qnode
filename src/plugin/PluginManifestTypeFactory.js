@@ -6,7 +6,7 @@ const PluginScope = require('./PluginScope');
 
 
 //TODO: convert the error to GraphQL error
-class PluginManifestTypeFactory extends ManifestTypeFactory {
+module.exports = class PluginManifestTypeFactory extends ManifestTypeFactory {
 
 
     _defineObjectType_Manifest( engine, groupType, fieldType ) {
@@ -47,6 +47,3 @@ class PluginManifestTypeFactory extends ManifestTypeFactory {
     }
 
 }
-
-
-module.exports = PluginManifestTypeFactory;

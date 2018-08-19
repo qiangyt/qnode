@@ -1,7 +1,7 @@
 import * as Fs from 'fs';
 import * as Path from 'path';
-import CodePath from '../util/CodePath';
-import * as Log from '../Logger';
+import CodePath from 'qnode-beans/dist/util/CodePath';
+import * as Log from 'qnode-beans/dist/Logger';
 import * as Util from 'util';
 import * as Sequelize from 'sequelize';
 

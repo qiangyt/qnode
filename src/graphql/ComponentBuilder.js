@@ -6,7 +6,7 @@ const GraphQLMongooseDao = require('./GraphQLMongooseDao');
 const AliSearchHelper = require('./AliSearchHelper');
 
 
-class ComponentBuilder {
+export default class ComponentBuilder {
 
 
     constructor( engine ) {
@@ -116,5 +116,3 @@ class ComponentBuilder {
 
 }
 
-
-module.exports = ComponentBuilder;

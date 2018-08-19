@@ -1,6 +1,6 @@
 const AliyunSdk = require('waliyun-sdk'); 
-import * as Log from '../Logger';
-const Errors = require('../Errors');
+import * as Log from 'qnode-beans/dist/Logger';
+const Errors = require('qnode-beans').Errors;
 import Context from '../ctx/Context';
 
 declare module global {
@@ -10,9 +10,6 @@ declare module global {
 
 export default class AliOpenSearch {
 
-    public $id = 'AliOpenSearch';
-    public $init = 'init';
-    public $lazy = true;
     public logger:Log.Logger = Log.create(this);
     public instance:any;
 

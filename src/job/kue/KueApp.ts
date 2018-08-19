@@ -2,7 +2,7 @@ import * as Kue from 'kue';
 import * as Cluster from 'cluster';
 const BasicAuth = require('basic-auth-connect');
 import * as Express from 'express';
-import * as Log from '../../Logger';
+import * as Log from 'qnode-beans/dist/Logger';
 
 declare module global {
     const config:any;

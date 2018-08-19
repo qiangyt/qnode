@@ -4,7 +4,7 @@
 const AliSearchHelper = require('../graphql/AliSearchHelper');
 
 
-class PluginSearchHelper extends AliSearchHelper {
+module.exports = class PluginSearchHelper extends AliSearchHelper {
 
     /** @override */
     _buildStatement_filter( filter ) {
@@ -39,5 +39,3 @@ class PluginSearchHelper extends AliSearchHelper {
 
 }
 
-
-module.exports = PluginSearchHelper;

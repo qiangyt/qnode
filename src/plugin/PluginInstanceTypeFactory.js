@@ -3,7 +3,7 @@
 const MongooseTypeFactory = require('../graphql/MongooseTypeFactory');
 
 
-class PluginInstanceTypeFactory extends MongooseTypeFactory {
+module.exports = class PluginInstanceTypeFactory extends MongooseTypeFactory {
 
     constructor( provider ) {
         super(provider);
@@ -11,6 +11,3 @@ class PluginInstanceTypeFactory extends MongooseTypeFactory {
     }
 
 }
-
-
-module.exports = PluginInstanceTypeFactory;

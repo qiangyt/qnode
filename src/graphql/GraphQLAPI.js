@@ -1,14 +1,14 @@
 'use strict';
 
-const Errors = require('../Errors');
-const Exception = require('../Exception');
+const Errors = require('qnode-beans').Errors;
+import Exception from 'qnode-beans/dist/Exception';
 const BaseAPI = require('./BaseAPI');
 
 
 /**
  *
  */
-class GraphQLAPI extends BaseAPI {
+export default class GraphQLAPI extends BaseAPI {
 
     constructor() {
         super('GraphQLAPI');
@@ -34,5 +34,3 @@ Object.assign( GraphQLAPI, {
     summary: 'graphql'
 } );
 
-
-module.exports = GraphQLAPI;

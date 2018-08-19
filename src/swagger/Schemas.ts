@@ -1,25 +1,21 @@
 import * as Fs from 'fs';
 import * as Path from 'path';
-import CodePath from '../util/CodePath';
+import CodePath from 'qnode-beans/dist/util/CodePath';
 import * as Util from 'util';
 import * as Sequelize from 'sequelize';
 import SwaggerHelper from './SwaggerHelper';
+import ApiServer from '../ApiServer';
 import SequelizerManager from '../orm/SequelizerManager';
-
-declare module global {
-    const config:any;
-}
-
 
 
 export default class Schemas {
 
-    public $id = 'Schemas';
-    public $init = 'init';
     public mapByName:any = {};
+    public apiServer:ApiServer;
 
     init() {
         this.mapByName['Error'] = SwaggerHelper.errorSchema();
+        this.apiServer = new ApiServer();
 
         const schemaDir = this.resolveSchemaDirectory();
         if( schemaDir ) {
@@ -29,7 +25,7 @@ export default class Schemas {
 
     /*eslint no-sync: "off"*/        
     resolveSchemaDirectory() {
-        const r = CodePath.resolve( global.config.server.schemaDir ? global.config.server.schemaDir : './schema' );
+        const r = CodePath.resolve( this.apiServer._config.schemaDir ? apiServer._config.schemaDir : './schema' );
         try {
             Fs.statSync(r);
         } catch( e ) {

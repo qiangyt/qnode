@@ -5,7 +5,7 @@ const PluginManifestTypeFactory = require('./PluginManifestTypeFactory');
 const PluginScope = require('./PluginScope');
 
 
-class PluginManifestProvider extends ManifestProvider {
+module.exports = class PluginManifestProvider extends ManifestProvider {
     
     /** @override */
     typeFactory() {
@@ -23,6 +23,3 @@ class PluginManifestProvider extends ManifestProvider {
     }
 
 }
-
-
-module.exports = PluginManifestProvider;

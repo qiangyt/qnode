@@ -1,8 +1,8 @@
-const Errors = require('../Errors');
-import ErrorType from '../ErrorType';
-import Exception from  '../Exception.js';
+const Errors = require('qnode-beans').Errors;
+import ErrorType from 'qnode-beans/dist/ErrorType';
+import Exception from  'qnode-beans/dist/Exception';
 import * as Util from 'util';
-import * as Log from '../Logger';
+import * as Log from 'qnode-beans/dist/Logger';
 const logger = Log.create('ctx');
 import Transaction from './Transaction';
 import ApiDefinition from '../ApiDefinition';

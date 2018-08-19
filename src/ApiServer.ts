@@ -5,9 +5,10 @@ import * as Restify from 'restify';
 const RestifyAny = <any>(Restify);
 import ServerContext from './ctx/ServerContext';
 import * as ApiRole from './ApiRole';
-import * as Log from './Logger';
-const Errors = require('./Errors');
-import CodePath from './util/CodePath';
+import * as Log from 'qnode-beans/dist/Logger';
+import Bean from 'qnode-beans/dist/Bean';
+const Errors = require('qnode-beans').Errors;
+import CodePath from 'qnode-beans/dist/util/CodePath';
 const CookieParser = require('restify-cookies');
 const FileUploader = require('./file/FileUploader');
 import JWTAuth from './auth/JWTAuth';
@@ -18,19 +19,14 @@ import SimpleAuth from './auth/SimpleAuth';
 declare let StaticSupport:any;
 
 declare module global {
-    const config:any;
-    const bearcat:any;
-    const pkg:any;
+    const module:string;
 }
 
 
-export default class ApiServer {
+export default class ApiServer extends Bean {
   
-    public $id = 'ApiServer';
     public $proxy = false;
-    public $SwaggerHelper:SwaggerHelper = null;
-    public $lazy = true;
-    public logger:Log.Logger = Log.create(this);
+    public swaggerHelper:SwaggerHelper = null;
     public auth:SimpleAuth;
     public restify:Restify.Server;
     public apiDefinitions:any = {};
@@ -41,13 +37,13 @@ export default class ApiServer {
      * 
      */
     init() {
-        const cfg = global.config;
+        const cfg = this._config;
 
-        cfg.server.name = cfg.server.name || global.pkg.name;
-        if( !cfg.server.path ) cfg.server.path = cfg.server.name;
-        if( !cfg.server.httpPort ) throw new Error( '<server.httpPort> not configured' );
-        if( cfg.server.cors === undefined ) cfg.server.cors = true;
-        if( !cfg.server.apiDir ) cfg.server.apiDir = './api';
+        cfg.name = cfg.name || global.module;
+        if( !cfg.path ) cfg.path = cfg.name;
+        if( !cfg.httpPort ) throw new Error( '<httpPort> not configured' );
+        if( cfg.cors === undefined ) cfg.cors = true;
+        if( !cfg.apiDir ) cfg.apiDir = './api';
 
         let errs = cfg.errors;
         if( !errs ) errs = cfg.errors = {};
@@ -58,6 +54,7 @@ export default class ApiServer {
         if( errs.paths === undefined ) errs.paths = ['./Errors.json'];
         errs.paths.forEach( (p:string) => Errors.register( errs.codeStart, errs.codeEnd, CodePath.resolve(p) ) );
         
+        this.swaggerHelper = new SwaggerHelper();
         this.auth = JWTAuth.globalAuthBean();
     }
 
@@ -65,7 +62,7 @@ export default class ApiServer {
      * 
      */
     initRestify() {
-        const cfg_server = global.config.server;
+        const cfg_server = this._config;
 
         //TODO: formatters, log, HTTPS, versioning
         const binaryFormatter = RestifyAny.formatters['application/octet-stream; q=0.2'];
@@ -98,7 +95,7 @@ export default class ApiServer {
             if (req.method.toLowerCase() === 'options') {
                 //if (res.methods.indexOf('OPTIONS') === -1) res.methods.push('OPTIONS');
 
-                if( global.config.server.cors ) {
+                if( cfg_server.cors ) {
                     res.header('Access-Control-Allow-Credentials', true);
                     res.header('Access-Control-Allow-Headers', 'aauth,Content-Type,Content-Length, Authorization, Accept,X-Requested-With');
                     res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
@@ -133,11 +130,11 @@ export default class ApiServer {
 
 
     buildApis() {
-        const apiDir = CodePath.resolve( global.config.server.apiDir );
-        this.logger.info( 'service api directory: ' + apiDir );
+        const apiDir = CodePath.resolve( this._config.apiDir );
+        this._logger.info( 'service api directory: ' + apiDir );
         this.buildApi(apiDir);
 
-        const graphql = global.config.graphql;
+        const graphql = this._config.graphql;
         if( graphql && graphql.auto ) {
             this.buildGraphQL();
         }
@@ -159,7 +156,7 @@ export default class ApiServer {
     initApi() {
         this.buildApis();
 
-        const cfg = global.config.server;
+        const cfg = this._config;
         const exposedToRootURL = (cfg.exposedToRootURL === undefined) ? false : cfg.exposedToRootURL;//是否同时把API放到根URL
         const path = '/' + cfg.path + '/';
 
@@ -199,7 +196,7 @@ export default class ApiServer {
             apiLog.push( 'Roles: ' );
             apiLog.push( ApiRole.byValueArray(def.roles) );
 
-            this.logger.info( apiLog.join('') );
+            this._logger.info( apiLog.join('') );
         }
     }
 
@@ -220,7 +217,7 @@ export default class ApiServer {
      * 
      */
     start( listen:boolean ) {
-        this.logger.info('start server initialization');
+        this._logger.info('start server initialization');
 
         this.init();
 
@@ -229,12 +226,12 @@ export default class ApiServer {
         this.buildStaticWeb();
 
         if( listen ) {
-            this.restify.listen( global.config.server.httpPort, () => {
-                this.logger.info('%s listening at %s', this.restify.name, this.restify.url);
+            this.restify.listen( this._config.httpPort, () => {
+                this._logger.info('%s listening at %s', this.restify.name, this.restify.url);
             } );
         }
 
-        this.logger.info('finish server initialization');
+        this._logger.info('finish server initialization');
 
         this.validateApi();
 
@@ -243,7 +240,7 @@ export default class ApiServer {
 
     /** blueprint has a swagger spec validator that we could easily reuse */
     validateApi() {
-        const logger = this.logger;
+        const logger = this._logger;
         const options = {
             ignoreInternalApi: false,
             ignoreGetBlueprintApi: true,
@@ -251,7 +248,7 @@ export default class ApiServer {
             ignoreNames: <any[]>[]
         };
 
-        const blueprint:BlueprintHelper = global.bearcat.getBean('BlueprintHelper');
+        const blueprint:BlueprintHelper = this._beans.load('BlueprintHelper');
         blueprint.output( this, null, options, function(err:any/*, blueprint*/) {
             if( err ) {
                 logger.fatal( err, 'validation failure by blueprint' );
@@ -262,17 +259,17 @@ export default class ApiServer {
     }
 
     buildStaticWeb() {
-        const cfg = global.config.server;
+        const cfg = this._config;
         //const exposedToRootURL = (cfg.exposedToRootURL === undefined) ? false : cfg.exposedToRootURL;//是否同时把API放到根URL
         
         const dir = CodePath.resolve( cfg.staticDir ? cfg.staticDir : './static' );
         try {
             Fs.statSync(dir);
         } catch( e ) {
-            this.logger.info( 'no static directory' );
+            this._logger.info( 'no static directory' );
             return;
         }
-        this.logger.info( 'static directory: ' + dir );
+        this._logger.info( 'static directory: ' + dir );
         
         for( const fileName of Fs.readdirSync(dir) ) {
             const full = Path.join(dir, fileName);
@@ -290,15 +287,14 @@ export default class ApiServer {
     
 
     buildUploader() {
-        let cfg = global.config.file;
+        let cfg = this._config.file;
         if( !cfg ) return;
 
         cfg = cfg.upload;
         if( !cfg ) return;        
         if( !cfg.enable ) return;
 
-        global.bearcat.module(FileUploader);
-        this.fileUploader = global.bearcat.getBean('FileUploader');
+        this.fileUploader = this._beans.load('FileUploader');
         
         this.fileUploader.start();
     }
@@ -326,7 +322,7 @@ export default class ApiServer {
             path.full = full;
             path.relative = relative;
                     
-            const def = ApiDefinition.build(path);
+            const def = ApiDefinition.build(this._beans, path);
             if( this.apiDefinitions[def.name] ) {
                throw new Error( 'duplicated API: name=' + def.name + ', path=' + full );
             }

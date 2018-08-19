@@ -17,7 +17,7 @@ const _ = require('lodash');
 
 
 //TODO: convert the error to GraphQL error
-class MongooseTypeFactory extends TypeFactory {
+export default class MongooseTypeFactory extends TypeFactory {
 
 
     static mapMongooseNumberType( name, fieldName, mongooseField ) {
@@ -427,6 +427,3 @@ class MongooseTypeFactory extends TypeFactory {
     }
 
 }
-
-
-module.exports = MongooseTypeFactory;

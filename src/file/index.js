@@ -4,6 +4,6 @@
 module.exports = {
 
     FileHelper: require('./FileHelper'),
-    FileUploader: require('./FileUploader')
+    FileUploader: require('./FileUploader').default
 
 };

@@ -1,16 +1,14 @@
 import MongooseManager from './MongooseManager';
 import MongooseInstance from './MongooseInstance';
 import * as Mongoose from 'mongoose';
-const Errors = require('../Errors');
-import Exception from '../Exception';
-import * as Log from '../Logger';
+const Errors = require('qnode-beans').Errors;
+import Exception from 'qnode-beans/dist/Exception';
+import * as Log from 'qnode-beans/dist/Logger';
 import Context from '../ctx/Context';
 
 
 export default class MongooseDao {
 
-    public $init = 'init';
-    public $lazy = true;
     public instance:MongooseInstance;
     public logger:Log.Logger;
     public schema:Mongoose.Schema;

@@ -1,7 +1,7 @@
 import * as Kue from 'kue';
 import InternalContext from  '../../ctx/InternalContext';
 import Context from  '../../ctx/Context';
-import * as Logger from '../../Logger';
+import * as Logger from 'qnode-beans/dist/Logger';
 import * as Domain from 'domain';
 import RedisManager from '../../cache/RedisManager';
 import * as Cluster from 'cluster';
@@ -18,18 +18,13 @@ export class BatchItem {
 
 export default class BatchQueue {
     
-    public $id:string;
-    public $lazy = true;
-    public $init = 'init';
     public queue:Kue.Queue;
     public config:any;
     public logger:any;
     public _batch:BatchItem[];
     
 
-    constructor( id:string ) {
-        this.$id = id;
-
+    constructor( public id:string ) {
         this.logger = Logger.create(this);
     }
 
@@ -40,7 +35,7 @@ export default class BatchQueue {
         config.attempts = config.attempts || 1;
         config.backoff = config.backoff || {delay: (60 * 1000), type:'fixed'};
         config.ttl = config.ttl || (60 * 1000);
-        config.name = name || this.$id;
+        config.name = name || this.id;
         config.batch = config.batch || 100;
         config.watchStuckJobsInterval = config.watchStuckJobsInterval || (60 * 1000);
         config.removeOnComplete = config.removeOnComplete || true;

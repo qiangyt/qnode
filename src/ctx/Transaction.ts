@@ -1,7 +1,7 @@
-const Errors = require('../Errors');
-import Exception from '../Exception';
-import * as Log from '../Logger';
-import * as Misc from '../util/Misc';
+const Errors = require('qnode-beans').Errors;
+import Exception from 'qnode-beans/dist/Exception';
+import * as Log from 'qnode-beans/dist/Logger';
+import * as Misc from 'qnode-beans/dist/util/Misc';
 import Context from './Context';
 const logger = Log.create('Transaction');
 

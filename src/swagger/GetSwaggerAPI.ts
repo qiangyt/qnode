@@ -1,5 +1,5 @@
 import * as ApiRole from '../ApiRole';
-const Errors = require('../Errors');
+const Errors = require('qnode-beans').Errors;
 import SwaggerHelper from './SwaggerHelper';
 import ApiServer from '../ApiServer';
 import Context from '../ctx/Context';
@@ -10,15 +10,20 @@ import Context from '../ctx/Context';
  */
 export default class GetSwaggerAPI {
 
-    public $id = 'GetSwaggerAPI';
-    public $SwaggerHelper:SwaggerHelper = null;
-    public $ApiServer:ApiServer = null;
+    public swaggerHelper:SwaggerHelper = null;
+    public apiServer:ApiServer = null;
     
+
+    init() {
+        this.swaggerHelper = new SwaggerHelper();
+        this.apiServer = new ApiServer();
+    }
+
 
     check( ctx:Context, apiName:string ) {
 
         if( apiName ) {
-            if( !this.$ApiServer.apiDefinitions[apiName] ) {
+            if( !this.apiServer.apiDefinitions[apiName] ) {
                 return ctx.error( Errors.API_NOT_FOUND, apiName );
             }
         }
@@ -33,9 +38,9 @@ export default class GetSwaggerAPI {
         ignoreGetBlueprintApi=true /* required:false, type:'boolean', description:'是否忽略GetSwagger API，默认为true' */,
         ignoreNames?:string[] /* required:false, type:'array', items:{type:'string'}, description:'需忽略的API名字，默认无' */ ) {
 
-        const options = this.$SwaggerHelper.buildOptions( ignoreInternalApi, ignoreGetSwaggerApi, ignoreGetBlueprintApi, ignoreNames );
+        const options = this.swaggerHelper.buildOptions( ignoreInternalApi, ignoreGetSwaggerApi, ignoreGetBlueprintApi, ignoreNames );
 
-        return this.$SwaggerHelper.root( this.$ApiServer, apiName, options );
+        return this.swaggerHelper.root( this.apiServer, apiName, options );
     }
 
 }

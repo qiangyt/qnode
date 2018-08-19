@@ -1,16 +1,16 @@
 'use strict';
 
-const Errors = require('../Errors');
-const Exception = require('../Exception');
+const Errors = require('qnode-beans').Errors;
+import Exception from 'qnode-beans/dist/Exception';
 const GraphQLEngine = require('./GraphQLEngine');
 const ApiRole = require('../ApiRole');
-const Logger = require('../Logger');
+import * as Logger from 'qnode-beans/dist/Logger';
 
 
 /**
  *
  */
-class BaseAPI {
+export default class BaseAPI {
 
     constructor( id ) {
         this.$lazy = true;
@@ -89,4 +89,3 @@ class BaseAPI {
 
 BaseAPI.role = [ApiRole.any];
 
-module.exports = BaseAPI;
